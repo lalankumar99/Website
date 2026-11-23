@@ -1,0 +1,148 @@
+/* ==========================================================================
+   FILE: css/theme.css
+   KAAM: Poore app ke colors (Pure White + Dark Mode), fonts, aur zero-lag
+         Android base settings ko control karna.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. LIGHT THEME (DEFAULT - PURE WHITE)
+   App khulte hi sabse pehle ye colors apply honge.
+   -------------------------------------------------------------------------- */
+:root {
+  /* Main Background: Bilkul saaf Pure White */
+  --bg-main: #FFFFFF;
+  
+  /* Card aur Box Background: Halka soft gray taaki white par card alag dikhe */
+  --bg-surface: #F8FAFC;
+  
+  /* Input field aur hover ke liye halka gray */
+  --bg-elevated: #F1F5F9;
+
+  /* Text Colors: Padhne me aasan aur aankhon par zor na pade */
+  --text-primary: #0F172A;      /* Main heading aur zaroori text (Dark Slate) */
+  --text-secondary: #475569;    /* Normal paragraph aur subtitle */
+  --text-muted: #94A3B8;        /* Chhote labels, date, aur placeholder */
+
+  /* Brand / Accent Colors: Buttons, active tabs, aur icons ke liye */
+  --primary: #2563EB;           /* Electric Blue (Main button color) */
+  --primary-hover: #1D4ED8;     /* Button dabane par thoda dark blue */
+  --primary-soft: #EFF6FF;      /* Active tab ya badge ka halka blue background */
+
+  /* Status Colors: Payment, warning, aur error dikhane ke liye */
+  --success: #16A34A;           /* Course unlocked / Payment verified (Green) */
+  --success-soft: #DCFCE7;
+  --danger: #DC2626;            /* Device lock error / Wrong password (Red) */
+  --danger-soft: #FEE2E2;
+  --warning: #D97706;           /* Pending verification / Notice (Amber) */
+  --warning-soft: #FEF3C7;
+
+  /* Borders: Bhaari shadow ki jagah patla 1px border (Zero-lag ke liye best) */
+  --border-color: #E2E8F0;
+
+  /* Typography & Sizing Variables */
+  --font-main: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --radius-sm: 8px;             /* Chhote buttons aur badges ke liye */
+  --radius-md: 12px;            /* Course cards aur inputs ke liye */
+  --radius-lg: 18px;            /* Bottom sheet aur modals ke liye */
+
+  /* Layout Heights: Header aur Bottom Nav ki fixed height */
+  --header-height: 58px;
+  --bottom-nav-height: 62px;
+}
+
+/* --------------------------------------------------------------------------
+   2. DARK THEME (SETTINGS SE ON HONE PAR)
+   JavaScript jab <html> tag par data-theme="dark" lagayega, tab ye colors
+   1 millisecond me bina kisi lag ke apply ho jayenge.
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] {
+  --bg-main: #0B1120;           /* Deep Dark Navy/Black background */
+  --bg-surface: #131C31;        /* Cards ke liye thoda halka dark navy */
+  --bg-elevated: #1E293B;       /* Inputs aur active surfaces */
+
+  --text-primary: #F8FAFC;      /* Crisp White heading */
+  --text-secondary: #CBD5E1;    /* Soft light gray text */
+  --text-muted: #64748B;        /* Muted labels */
+
+  --primary: #3B82F6;           /* Bright Electric Blue (Dark par chamakta hai) */
+  --primary-hover: #60A5FA;
+  --primary-soft: rgba(59, 130, 246, 0.15);
+
+  --success: #22C55E;
+  --success-soft: rgba(34, 197, 94, 0.15);
+  --danger: #EF4444;
+  --danger-soft: rgba(239, 68, 68, 0.15);
+  --warning: #F59E0B;
+  --warning-soft: rgba(245, 158, 11, 0.15);
+
+  --border-color: #1E293B;      /* Dark mode me patla subtle border */
+}
+
+/* --------------------------------------------------------------------------
+   3. ZERO-LAG ANDROID BASE RESET
+   Ye rules website ko 100% native Android app jaisa feel dete hain.
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;       /* Padding se box ka size kharab nahi hoga */
+  margin: 0;
+  padding: 0;
+  
+  /* Mobile me button dabane par aane wala ajeeb neela box hatata hai */
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-size: 16px;
+  /* Screen kheenchne par browser ka rubber-band bounce band karta hai */
+  overscroll-behavior-y: none;
+  /* Text ko zabardasti zoom hone se rokta hai */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.5;
+  
+  /* Horizontal scroll (daaye-baaye khisakna) poori tarah band */
+  overflow-x: hidden;
+  
+  /* App jaisa feel: Normal text select na ho (inputs me select hoga) */
+  user-select: none;
+  -webkit-user-select: none;
+  
+  /* Font ko mobile screen par sharp aur smooth dikhane ke liye */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Input aur Textarea me user aaram se text select/paste kar sake */
+input,
+textarea {
+  user-select: text;
+  -webkit-user-select: text;
+  font-family: inherit;
+  color: inherit;
+}
+
+/* Links aur Buttons ka default browser style hatana */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* Images kabhi apne box se bahar na nikle */
+img {
+  max-width: 100%;
+  display: block;
+}
