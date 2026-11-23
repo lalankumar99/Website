@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Mobile me native Android app jaisa fit dikhne ke liye viewport setting -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#2563EB" />
+  <title>Polytechnic Hub</title>
+
+  <!-- PWA Manifest: App ko home screen par install karne ke liye -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Font: Poppins (Halka aur clean mobile typography) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Hamari 4 Zero-Lag CSS Files (Sahi order me load hongi) -->
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+
+  <!-- ========================================================================
+       1. FULL-SCREEN LOGIN OVERLAY
+       Jab tak student login nahi karega, ye screen poore app ko cover karegi.
+       ======================================================================== -->
+  <div id="auth-screen" class="auth-screen">
+    <div class="auth-box">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <span class="badge badge-primary" style="margin-bottom: 8px;">SBTE Polytechnic</span>
+        <h1 style="font-size: 1.6rem; font-weight: 700;">Polytechnic Hub</h1>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 4px;">
+          Apne registered mobile number se login karein
+        </p>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-mobile">Mobile Number (10 Digits)</label>
+          <input
+            type="tel"
+            id="login-mobile"
+            class="form-input"
+            placeholder="Jaise: 9876543210"
+            maxlength="10"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-name">Aapka Naam (Naye students ke liye)</label>
+          <input
+            type="text"
+            id="login-name"
+            class="form-input"
+            placeholder="Apna poora naam likhein"
+          />
+        </div>
+
+        <!-- Login Error Message (Jaise: Device Lock mismatch) -->
+        <p id="login-error" style="color: var(--danger); font-size: 0.82rem; margin-bottom: 12px; display: none;"></p>
+
+        <button type="submit" class="btn btn-primary">Login & Continue</button>
+      </form>
+
+      <!-- Auto-generated Device ID dikhane ke liye -->
+      <div class="card" style="margin-top: 18px; text-align: center;">
+        <p style="font-size: 0.75rem; color: var(--text-muted);">Aapka Unique Device ID (1-Device Lock)</p>
+        <p id="auth-device-id" style="font-size: 0.9rem; font-weight: 700; margin-top: 2px;">Loading...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       2. MAIN APP SHELL (HEADER + 4 VIEWS + BOTTOM NAV)
+       ======================================================================== -->
+  <div class="app-shell">
+
+    <!-- TOP FIXED HEADER -->
+    <header class="app-header">
+      <div class="header-brand">
+        <span class="header-title">Polytechnic Hub</span>
+        <span id="header-branch-badge" class="badge badge-primary">EE • Sem 3</span>
+      </div>
+      <div class="header-actions">
+        <!-- Quick Theme Toggle Icon -->
+        <button id="header-theme-btn" class="icon-btn" aria-label="Toggle Theme">
+          <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN SCROLLABLE CONTENT AREA -->
+    <main class="app-main">
+
+      <!-- VIEW 1: HOME TAB -->
+      <section id="view-home" class="view active">
+        <!-- Welcome Banner -->
+        <div class="section-block">
+          <div class="card">
+            <p style="font-size: 0.8rem; color: var(--text-secondary);">Welcome back,</p>
+            <h2 id="home-user-name" style="font-size: 1.2rem; font-weight: 700;">Student</h2>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 4px;">
+              Notes, PYQ, VVI aur Exam Packs ek hi jagah par.
+            </p>
+          </div>
+        </div>
+
+        <!-- Latest Notice Section -->
+        <div class="section-block">
+          <div class="section-header">
+            <h3 class="section-title">Latest Updates</h3>
+          </div>
+          <div id="home-notices" class="list-stack">
+            <!-- JS yahan notices load karega -->
+            <div class="skeleton skeleton-text"></div>
+          </div>
+        </div>
+
+        <!-- Featured Courses Section -->
+        <div class="section-block">
+          <div class="section-header">
+            <h3 class="section-title">Popular Courses</h3>
+            <button class="section-link" onclick="switchTab('courses')">See All</button>
+          </div>
+          <div id="home-courses-list" class="list-stack">
+            <!-- JS yahan course cards load karega -->
+            <div class="skeleton skeleton-card"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: ALL COURSES TAB -->
+      <section id="view-courses" class="view">
+        <div class="section-block">
+          <div class="section-header">
+            <h3 class="section-title">All Courses & Packs</h3>
+          </div>
+          <!-- Branch Filter Chips -->
+          <div class="scroll-row" id="branch-filters" style="margin-bottom: 14px;">
+            <button class="chip active" data-branch="ALL">All</button>
+            <button class="chip" data-branch="EE">Electrical (EE)</button>
+            <button class="chip" data-branch="ME">Mechanical (ME)</button>
+            <button class="chip" data-branch="CE">Civil (CE)</button>
+            <button class="chip" data-branch="CSE">CSE</button>
+          </div>
+          <!-- Courses Container -->
+          <div id="all-courses-list" class="list-stack"></div>
+        </div>
+      </section>
+
+      <!-- VIEW 3: MY COURSES (UNLOCKED COURSES) TAB -->
+      <section id="view-my-courses" class="view">
+        <div class="section-block">
+          <div class="section-header">
+            <h3 class="section-title">My Unlocked Courses</h3>
+          </div>
+          <div id="my-courses-list" class="list-stack">
+            <!-- Agar koi course nahi kharida to empty message dikhega -->
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 4: SETTINGS & PROFILE TAB -->
+      <section id="view-settings" class="view">
+        <div class="section-block">
+          <div class="section-header">
+            <h3 class="section-title">Settings & Profile</h3>
+          </div>
+
+          <div class="list-stack">
+            <!-- Student Info Card -->
+            <div class="card">
+              <h4 id="settings-name" style="font-size: 1rem; font-weight: 700;">Student Name</h4>
+              <p id="settings-mobile" style="font-size: 0.84rem; color: var(--text-secondary);">+91 XXXXXXXXXX</p>
+            </div>
+
+            <!-- Dark Mode Switch -->
+            <div class="setting-row">
+              <div>
+                <p style="font-size: 0.92rem; font-weight: 600;">Dark Mode</p>
+                <p style="font-size: 0.76rem; color: var(--text-secondary);">Aankhon ke aaram ke liye dark theme</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="dark-mode-toggle" />
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <!-- Device ID Copy Row -->
+            <div class="setting-row">
+              <div>
+                <p style="font-size: 0.92rem; font-weight: 600;">Device ID</p>
+                <p id="settings-device-id" style="font-size: 0.78rem; color: var(--primary); font-weight: 600;">DEV-XXXXX</p>
+              </div>
+              <button id="copy-device-btn" class="btn btn-soft" style="width: auto; min-height: 36px; padding: 6px 14px;">
+                Copy
+              </button>
+            </div>
+
+            <!-- Logout Button -->
+            <button id="logout-btn" class="btn btn-danger" style="margin-top: 8px;">
+              Logout
+            </button>
+          </div>
+
+          <!-- HIDDEN ADMIN TRIGGER: Is version number par 5 baar tap karne se Admin Panel khulega -->
+          <div style="text-align: center; margin-top: 32px;">
+            <p id="admin-secret-trigger" style="font-size: 0.78rem; color: var(--text-muted); padding: 8px; cursor: pointer;">
+              Polytechnic Hub • v1.0.0
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- BOTTOM NAVIGATION BAR (4 MAIN TABS) -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-tab="home">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        <span>Home</span>
+      </button>
+
+      <button class="nav-item" data-tab="courses">
+        <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        <span>Courses</span>
+      </button>
+
+      <button class="nav-item" data-tab="my-courses">
+        <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        <span>My Courses</span>
+      </button>
+
+      <button class="nav-item" data-tab="settings">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span>Settings</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ========================================================================
+       3. DYNAMIC UPI QR PAYMENT BOTTOM SHEET
+       Course "Buy Now" dabane par neeche se upar khulega.
+       ======================================================================== -->
+  <div id="payment-sheet" class="sheet-backdrop">
+    <div class="bottom-sheet">
+      <div class="sheet-handle"></div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h3 id="pay-course-title" style="font-size: 1rem; font-weight: 700;">Course Name</h3>
+        <button onclick="closeSheet('payment-sheet')" class="icon-btn" style="width: 32px; height: 32px;">✕</button>
+      </div>
+
+      <p style="font-size: 0.82rem; color: var(--text-secondary);">
+        Niche diye gaye QR ko scan karein ya seedha UPI app se pay karein. Amount auto-fill ho jayega.
+      </p>
+
+      <!-- Dynamic QR Code Container (Dark mode me bhi white rahega) -->
+      <div style="text-align: center;">
+        <div class="qr-container">
+          <div id="qr-box" class="qr-box"></div>
+          <p id="qr-order-id" class="qr-order-id">Order: POLY-00000</p>
+        </div>
+      </div>
+
+      <!-- Direct UPI App Pay Button (Same phone users ke liye) -->
+      <a id="upi-direct-btn" href="#" class="btn btn-primary" style="margin-bottom: 14px;">
+        Pay ₹<span id="pay-amount">0</span> via UPI App
+      </a>
+
+      <!-- Payment ke baad UTR Number dalne ka box -->
+      <div class="form-group">
+        <label class="form-label" for="pay-utr">12-Digit UTR / Reference Number</label>
+        <input type="text" id="pay-utr" class="form-input" placeholder="Payment ke baad UTR number dalein" maxlength="12" />
+      </div>
+
+      <button id="verify-whatsapp-btn" class="btn btn-success">
+        Verify on WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       4. 3-LAYER SECURE ADMIN PANEL BOTTOM SHEET
+       Sirf 5 baar Version par tap karne ke baad hi khulega.
+       ======================================================================== -->
+  <div id="admin-sheet" class="sheet-backdrop">
+    <div class="bottom-sheet">
+      <div class="sheet-handle"></div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <h3 style="font-size: 1rem; font-weight: 700;">Admin Control (3-Layer)</h3>
+        <button onclick="closeSheet('admin-sheet')" class="icon-btn" style="width: 32px; height: 32px;">✕</button>
+      </div>
+
+      <!-- LAYER 2 & 3: Password (SHA-256) + GitHub Token Login -->
+      <div id="admin-login-box">
+        <div class="form-group">
+          <label class="form-label" for="admin-pass">Admin Password</label>
+          <input type="password" id="admin-pass" class="form-input" placeholder="Apna secret password dalein" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="admin-token">GitHub Personal Access Token (PAT)</label>
+          <input type="password" id="admin-token" class="form-input" placeholder="ghp_xxxxxxxxxxxx (Code me save nahi hoga)" />
+        </div>
+        <button id="admin-login-btn" class="btn btn-primary">Unlock Admin Panel</button>
+      </div>
+
+      <!-- ADMIN DASHBOARD: 1-Click Student Course Unlock & Device Lock -->
+      <div id="admin-dashboard-box" style="display: none;">
+        <p class="badge badge-success" style="margin-bottom: 12px;">Admin Authenticated</p>
+
+        <div class="form-group">
+          <label class="form-label" for="adm-stu-mobile">Student Mobile Number</label>
+          <input type="tel" id="adm-stu-mobile" class="form-input" placeholder="9876543210" maxlength="10" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="adm-stu-name">Student Name</label>
+          <input type="text" id="adm-stu-name" class="form-input" placeholder="Rahul Kumar" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="adm-stu-device">Student Device ID (WhatsApp se copy karein)</label>
+          <input type="text" id="adm-stu-device" class="form-input" placeholder="DEV-7X92K" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="adm-stu-course">Course ID Unlock Karein</label>
+          <input type="text" id="adm-stu-course" class="form-input" placeholder="Jaise: ee-sem3-pro" />
+        </div>
+
+        <button id="admin-save-user-btn" class="btn btn-success">
+          Save & Unlock on GitHub
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       5. TOAST NOTIFICATION & ANTI-LEAK WATERMARK
+       ======================================================================== -->
+  <div id="toast" class="toast">Message</div>
+  <div id="watermark-layer" class="watermark-layer" style="display: none;"></div>
+
+  <!-- ========================================================================
+       6. JAVASCRIPT FILES (Sahi order me load hongi)
+       ======================================================================== -->
+  <!-- QR Code Library (Local lib/ me rakh sakte ho ya ye lightweight CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <!-- Hamari Modular JS Files -->
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/courses.js"></script>
+  <script src="js/payment.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
