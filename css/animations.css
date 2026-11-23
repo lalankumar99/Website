@@ -1,0 +1,169 @@
+/* ==========================================================================
+   FILE: css/animations.css
+   KAAM: App ko native Android jaisa smooth feel dena (Touch press effect,
+         Bottom Sheet slide-up, Skeleton loading, aur smooth tab switch).
+   NOTE: Zero-lag ke liye sirf 'transform' aur 'opacity' animate kiye gaye hain.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. NATIVE ANDROID TOUCH FEEDBACK (TAP / PRESS EFFECT)
+   Jab bhi student kisi button, card, ya icon par ungli rakhega, wo halka sa
+   ander dabega (scale 0.96). Isse bilkul asli Android app jaisa feel aata hai.
+   -------------------------------------------------------------------------- */
+.btn,
+.icon-btn,
+.chip,
+.course-card,
+.subject-card,
+.nav-item {
+  /* Sirf transform par fast transition (120ms = turant response) */
+  transition: transform 0.12s ease-out, opacity 0.12s ease-out;
+}
+
+/* Ungli dabane (:active) par halka sa chhota hona */
+.btn:active,
+.icon-btn:active,
+.chip:active {
+  transform: scale(0.95);
+  opacity: 0.9;
+}
+
+/* Cards thode bade hote hain, isliye unka dabna thoda subtle (0.98) rakha hai */
+.course-card:active,
+.subject-card:active {
+  transform: scale(0.98);
+}
+
+/* Bottom Nav icon dabane par halka bounce feel */
+.nav-item:active svg {
+  transform: scale(0.88);
+}
+
+/* --------------------------------------------------------------------------
+   2. SMOOTH TAB / VIEW SWITCHING (NO PAGE RELOAD)
+   Jab student Home se Courses ya Settings par jayega, to naya screen jhatke se
+   nahi, balki 180ms ke smooth fade-in ke sath khulega.
+   -------------------------------------------------------------------------- */
+@keyframes viewFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);   /* Halka sa neeche se upar aayega */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.view.active {
+  animation: viewFadeIn 0.18s ease-out forwards;
+}
+
+/* --------------------------------------------------------------------------
+   3. ANDROID BOTTOM SHEET SLIDE-UP ANIMATION
+   Payment QR ya Admin Login ka panel neeche se upar smoothly slide hoga.
+   -------------------------------------------------------------------------- */
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sheetSlideUp {
+  from {
+    transform: translateY(100%);  /* Screen ke bilkul neeche se shuru */
+  }
+  to {
+    transform: translateY(0);     /* Apni jagah par aakar rukega */
+  }
+}
+
+.sheet-backdrop.open {
+  animation: backdropFadeIn 0.2s ease-out forwards;
+}
+
+.sheet-backdrop.open .bottom-sheet {
+  /* Native Android jaisa smooth decelerate curve */
+  animation: sheetSlideUp 0.24s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* --------------------------------------------------------------------------
+   4. DARK MODE TOGGLE SWITCH TRANSITION
+   Settings me Dark Mode ON/OFF karte waqt switch ka gola smoothly khisakega.
+   -------------------------------------------------------------------------- */
+.slider {
+  transition: background-color 0.2s ease;
+}
+
+.slider::before {
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* --------------------------------------------------------------------------
+   5. TOAST NOTIFICATION POP-UP ANIMATION
+   Neeche aane wala chhota message ("Device ID Copied!") smoothly upar aayega.
+   -------------------------------------------------------------------------- */
+@keyframes toastPop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 16px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.toast.show {
+  animation: toastPop 0.2s ease-out forwards;
+}
+
+/* --------------------------------------------------------------------------
+   6. SKELETON LOADING (YOUTUBE / INSTAGRAM JAISA LOADER)
+   Jab tak JSON data load ho raha ho, boring gol loader ki jagah ye halka
+   pulse karta hua box dikhega. GPU par bilkul load nahi dalta.
+   -------------------------------------------------------------------------- */
+@keyframes skeletonPulse {
+  0%, 100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.skeleton {
+  background-color: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  animation: skeletonPulse 1.2s ease-in-out infinite;
+}
+
+.skeleton-text {
+  height: 14px;
+  width: 70%;
+  margin-bottom: 8px;
+}
+
+.skeleton-card {
+  height: 160px;
+  width: 100%;
+  border-radius: var(--radius-md);
+}
+
+/* --------------------------------------------------------------------------
+   7. BATTERY SAVER / REDUCED MOTION SUPPORT
+   Agar kisi student ne apne phone me "Remove Animations" ON kar rakha hai,
+   to ye rule saare animations ko turant band kar dega.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
