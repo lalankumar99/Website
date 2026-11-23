@@ -1,0 +1,43 @@
+{
+  "courses": [
+    {
+      "id": "ee-sem3-pro",
+      "title": "Electrical Engg. 3rd Sem Complete Pack",
+      "subtitle": "All 5 Subjects Notes + PYQ + VVI + Formulas",
+      "branch": "EE",
+      "semester": 3,
+      "price": 29,
+      "originalPrice": 99,
+      "badge": "Best Seller",
+      "thumbnail": "assets/images/ee-sem3.webp",
+      "hasFreeDemo": true,
+      "detailFile": "data/courses/details/ee-sem3-pro.json"
+    },
+    {
+      "id": "me-sem3-pro",
+      "title": "Mechanical Engg. 3rd Sem Complete Pack",
+      "subtitle": "All Subjects Notes + 5 Year PYQ + VVI",
+      "branch": "ME",
+      "semester": 3,
+      "price": 29,
+      "originalPrice": 99,
+      "badge": "New",
+      "thumbnail": "assets/images/me-sem3.webp",
+      "hasFreeDemo": true,
+      "detailFile": "data/courses/details/me-sem3-pro.json"
+    },
+    {
+      "id": "ee-sem3-python",
+      "title": "Python Programming (2418305) Special",
+      "subtitle": "Easy Hindi Notes + Practical Programs + VVI",
+      "branch": "EE",
+      "semester": 3,
+      "price": 19,
+      "originalPrice": 49,
+      "badge": "Popular",
+      "thumbnail": "assets/images/python-sem3.webp",
+      "hasFreeDemo": true,
+      "detailFile": "data/courses/details/ee-sem3-python.json"
+    }
+  ]
+}
