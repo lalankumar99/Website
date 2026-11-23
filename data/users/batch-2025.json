@@ -1,0 +1,29 @@
+{
+  "users": [
+    {
+      "mobile": "9876543210",
+      "name": "Rahul Kumar",
+      "branch": "EE",
+      "semester": 3,
+      "deviceId": "DEV-7X92K",
+      "unlockedCourses": [
+        "ee-sem3-pro",
+        "ee-sem3-python"
+      ],
+      "active": true,
+      "joinedDate": "2026-11-20"
+    },
+    {
+      "mobile": "9123456789",
+      "name": "Amit Raj",
+      "branch": "ME",
+      "semester": 3,
+      "deviceId": "DEV-3M48P",
+      "unlockedCourses": [
+        "me-sem3-pro"
+      ],
+      "active": true,
+      "joinedDate": "2026-11-22"
+    }
+  ]
+}
