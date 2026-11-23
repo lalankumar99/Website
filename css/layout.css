@@ -1,0 +1,234 @@
+/* ==========================================================================
+   FILE: css/layout.css
+   KAAM: App ka poora layout structure (Top Header, Scrollable Screen Area,
+         Bottom Navigation Bar, aur Responsive Grids) set karna.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. MAIN APP SHELL (POORE APP KA CONTAINER)
+   Ye ensure karta hai ki app mobile par 100% full screen dikhe aur agar koi
+   tablet ya laptop par khole to design beech me saaf-suthra rahe.
+   -------------------------------------------------------------------------- */
+.app-shell {
+  width: 100%;
+  max-width: 600px;             /* Badi screen par bhi mobile app jaisa clean width */
+  min-height: 100dvh;           /* Mobile browser bar ke hisab se exact full height */
+  margin: 0 auto;               /* Badi screen par beech (center) me rakhne ke liye */
+  background-color: var(--bg-main);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --------------------------------------------------------------------------
+   2. TOP HEADER BAR (FIXED APP BAR)
+   Upar hamesha chipka rahega. Isme App ka naam, Branch badge, aur Search/Theme
+   button aayega. Zero-lag ke liye blur ki jagah solid background + 1px border.
+   -------------------------------------------------------------------------- */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);  /* .app-shell ke bilkul upar center me rakhne ke liye */
+  width: 100%;
+  max-width: 600px;
+  height: var(--header-height);
+  background-color: var(--bg-main);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;                 /* Hamesha content ke upar rahega */
+}
+
+/* Header ke left side me App Title aur chhota subtitle */
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+
+/* Header ke right side me action icons (Search, Notification, etc.) */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   3. MAIN CONTENT AREA (BEECH KA SCROLLABLE HISSA)
+   Upar Header aur neeche Bottom Nav ki jagah chhodkar baaki hissa yahan dikhega.
+   -------------------------------------------------------------------------- */
+.app-main {
+  flex: 1;
+  /* Upar aur neeche fixed bars ke peeche content na chhipe, isliye padding */
+  padding-top: calc(var(--header-height) + 14px);
+  padding-bottom: calc(var(--bottom-nav-height) + 24px);
+  padding-left: 16px;
+  padding-right: 16px;
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   4. SPA SCREENS / VIEWS (NO PAGE RELOAD)
+   Har tab (Home, Courses, My Courses, Settings) ek alag <section class="view">
+   hoga. Default me sab chhipe (none) rahenge, sirf .active wala dikhega.
+   -------------------------------------------------------------------------- */
+.view {
+  display: none;
+  width: 100%;
+}
+
+.view.active {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   5. SECTION HEADERS & SPACING
+   Har section (jaise "Popular Courses", "Latest Notices") ke upar ka title bar.
+   -------------------------------------------------------------------------- */
+.section-block {
+  margin-bottom: 22px;
+  /* Lambi list hone par browser sirf screen par dikhne wala hissa render karega */
+  content-visibility: auto;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.section-link {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--primary);
+}
+
+/* --------------------------------------------------------------------------
+   6. RESPONSIVE GRIDS (CARDS AUR SUBJECTS KE LIYE)
+   Alag-alag layouts ke liye ready-made lightweight grid classes.
+   -------------------------------------------------------------------------- */
+
+/* 2-Column Grid: Subjects, Branches, ya Quick Actions ke liye */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* 1-Column List: Courses, Notices, aur Notes ki list ke liye */
+.list-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Horizontal Scroll Row: Banners ya Filter chips (Sem 1, Sem 2, Sem 3...) ke liye */
+.scroll-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  /* Scrollbar chhipane ke liye taaki Android app jaisa clean dikhe */
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE/Edge */
+}
+
+.scroll-row::-webkit-scrollbar {
+  display: none;                /* Chrome/Safari/Android WebView */
+}
+
+/* --------------------------------------------------------------------------
+   7. BOTTOM NAVIGATION BAR (NATIVE ANDROID FEEL)
+   Angoothe (thumb) se aasani se chalane ke liye neeche 4 main tabs.
+   -------------------------------------------------------------------------- */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 600px;
+  height: var(--bottom-nav-height);
+  background-color: var(--bg-main);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  /* Naye gesture-bar wale phones me neeche extra safe padding */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  z-index: 100;
+}
+
+/* Har ek Bottom Nav Tab button */
+.nav-item {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+/* Tab ke andar ka SVG icon */
+.nav-item svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+/* Jo tab abhi khula hai (Active state) */
+.nav-item.active {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   8. FULL-SCREEN LOGIN OVERLAY
+   Jab tak student login nahi karega, ye screen poore app ko dhak kar rakhegi.
+   -------------------------------------------------------------------------- */
+.auth-screen {
+  position: fixed;
+  inset: 0;                     /* top, right, bottom, left sab 0 */
+  background-color: var(--bg-main);
+  z-index: 500;                 /* Header aur Bottom Nav dono ke upar */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* Login ho jaane ke baad JS is class ko lagakar screen hata dega */
+.auth-screen.hidden {
+  display: none;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
