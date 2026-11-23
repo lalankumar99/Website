@@ -1,0 +1,400 @@
+/* ==========================================================================
+   FILE: css/components.css
+   KAAM: App ke sabhi UI components (Buttons, Cards, Inputs, Bottom Sheet,
+         UPI QR Box, Settings Switch, Badges, aur Toast) ka design.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. BUTTONS (PRIMARY, OUTLINE, ICON, WHATSAPP)
+   Har button me height aur padding aisi rakhi hai ki mobile me thumb (angoothe)
+   se dabane me aasan rahe (minimum 44px touch target).
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;                  /* Mobile app me full-width buttons best lagte hain */
+}
+
+/* Main Action Button (Login, Buy Now, Unlock) */
+.btn-primary {
+  background-color: var(--primary);
+  color: #FFFFFF;
+}
+
+.btn-primary:active {
+  background-color: var(--primary-hover);
+}
+
+/* Secondary / Soft Button (Cancel, Free Demo, Copy ID) */
+.btn-soft {
+  background-color: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+/* WhatsApp Verification Button (Green) */
+.btn-success {
+  background-color: var(--success);
+  color: #FFFFFF;
+}
+
+/* Danger / Logout / Block Button (Red) */
+.btn-danger {
+  background-color: var(--danger-soft);
+  color: var(--danger);
+  border: 1px solid transparent;
+}
+
+/* Chhota गोल Icon Button (Header me Search, Back, ya Close ke liye) */
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.icon-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+/* --------------------------------------------------------------------------
+   2. FORM INPUTS (LOGIN, UTR NUMBER, COUPON, ADMIN TOKEN)
+   Saaf aur bada input box taaki mobile keyboard khulne par type karna easy ho.
+   -------------------------------------------------------------------------- */
+.form-group {
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  outline: none;
+}
+
+/* Jab user input par click karega to border primary blue ho jayega */
+.form-input:focus {
+  border-color: var(--primary);
+  background-color: var(--bg-main);
+}
+
+/* --------------------------------------------------------------------------
+   3. BADGES & FILTER CHIPS (SEMESTER, FREE/PAID, UNLOCKED)
+   Chhote pill-shaped tags jo status ya filter dikhate hain.
+   -------------------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 999px;         /* Poora gol kinara (Pill shape) */
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.badge-primary {
+  background-color: var(--primary-soft);
+  color: var(--primary);
+}
+
+.badge-success {
+  background-color: var(--success-soft);
+  color: var(--success);
+}
+
+.badge-warning {
+  background-color: var(--warning-soft);
+  color: var(--warning);
+}
+
+/* Horizontal Scroll Filter Chips (Sem 1, Sem 2, Sem 3...) */
+.chip {
+  flex-shrink: 0;               /* Chip sikud kar chhota na ho */
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.chip.active {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #FFFFFF;
+}
+
+/* --------------------------------------------------------------------------
+   4. COURSE CARDS & SUBJECT CARDS
+   Pure White par soft surface + 1px border se bilkul clean premium look.
+   -------------------------------------------------------------------------- */
+.card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+
+/* Course Card Layout */
+.course-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;             /* Thumbnail ke kone bhi gol rahenge */
+  display: flex;
+  flex-direction: column;
+}
+
+.course-thumb {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;            /* Image stretch nahi hogi, sahi crop hogi */
+  background-color: var(--bg-elevated);
+}
+
+.course-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.course-title {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.35;
+}
+
+.course-meta {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.course-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+}
+
+.course-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Chhota Subject Box (Grid-2 ke liye) */
+.subject-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   5. ANDROID BOTTOM SHEET (PAYMENT QR & ADMIN LOGIN KE LIYE)
+   Popup ki jagah neeche se upar aane wala native Android panel.
+   -------------------------------------------------------------------------- */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55); /* Peeche ka screen halka dark */
+  z-index: 300;
+  display: none;                /* Default me chhipa rahega */
+  align-items: flex-end;        /* Sheet ko neeche chipka kar rakhega */
+  justify-content: center;
+}
+
+.sheet-backdrop.open {
+  display: flex;
+}
+
+.bottom-sheet {
+  width: 100%;
+  max-width: 600px;
+  max-height: 88dvh;            /* Screen se bahar na jaye */
+  overflow-y: auto;
+  background-color: var(--bg-main);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  padding: 12px 20px 24px 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Sheet ke upar chhota gray drag handle bar */
+.sheet-handle {
+  width: 40px;
+  height: 4px;
+  border-radius: 99px;
+  background-color: var(--border-color);
+  margin: 0 auto 14px auto;
+}
+
+/* --------------------------------------------------------------------------
+   6. DYNAMIC UPI QR CODE BOX
+   QR code hamesha white background par hi dikhna chahiye (Dark mode me bhi!)
+   taaki PhonePe/GPay/Paytm ka scanner use bina dikkat ke scan kar sake.
+   -------------------------------------------------------------------------- */
+.qr-container {
+  background-color: #FFFFFF;    /* Hamesha Pure White (Dark mode me bhi) */
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 12px auto;
+}
+
+.qr-box {
+  width: 190px;
+  height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-order-id {
+  margin-top: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #0F172A;               /* Hamesha dark text kyunki background white hai */
+}
+
+/* --------------------------------------------------------------------------
+   7. SETTINGS LIST & DARK MODE TOGGLE SWITCH
+   Settings tab me Dark Theme, Device ID aur Logout rows ke liye.
+   -------------------------------------------------------------------------- */
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+/* Android Style Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background-color: var(--border-color);
+  border-radius: 99px;
+  cursor: pointer;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+}
+
+/* Jab Dark Mode ON hoga tab switch blue ho jayega */
+.switch input:checked + .slider {
+  background-color: var(--primary);
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(20px);
+}
+
+/* --------------------------------------------------------------------------
+   8. TOAST NOTIFICATION (NEECHE CHHOTA POPUP MESSAGE)
+   Jaise: "Device ID Copied!", "Login Successful", "Wrong Password".
+   -------------------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  bottom: calc(var(--bottom-nav-height) + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--text-primary);
+  color: var(--bg-main);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 0.84rem;
+  font-weight: 500;
+  z-index: 600;
+  display: none;
+  white-space: nowrap;
+}
+
+.toast.show {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   9. ANTI-LEAK WATERMARK (PAID NOTES KE PEECHE)
+   Paid content kholne par student ka naam/number halka tirchha dikhega.
+   -------------------------------------------------------------------------- */
+.watermark-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;         /* Iske aar-paar click/scroll ho sakega */
+  z-index: 250;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.07;                /* Bahut halka taaki padhne me dikkat na ho */
+  font-size: 1.4rem;
+  font-weight: 700;
+  transform: rotate(-28deg);
+  color: var(--text-primary);
+  text-align: center;
+}
