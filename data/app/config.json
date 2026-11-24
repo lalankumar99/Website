@@ -4,10 +4,10 @@
   "maintenanceMode": false,
   "maintenanceMessage": "Polytechnic Hub update ho raha hai, kripya 10 minute baad kholein.",
   "payment": {
-    "upiId": "yourupi@upi",
+    "upiId": "9973532153@ibl",
     "payeeName": "Polytechnic Hub",
     "currency": "INR",
-    "whatsappNumber": "91XXXXXXXXXX"
+    "whatsappNumber": "919296783086"
   },
   "security": {
     "deviceLockEnabled": true,
@@ -15,7 +15,7 @@
     "adminPasswordHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
   "github": {
-    "owner": "YOUR_GITHUB_USERNAME",
+    "owner": "lalankumar99",
     "repo": "polytechnic-hub",
     "branch": "main"
   }
